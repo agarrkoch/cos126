@@ -1,0 +1,22 @@
+public class rgbtocmyk {
+    public static void main(String[] args) {
+        double r = Double.parseDouble(args[0]);
+        double g = Double.parseDouble(args[1]);
+        double b = Double.parseDouble(args[2]);
+
+        double white = Math.max(r, (Math.max(g, b))) / 255;
+        double cyan = (white - (r / 255)) / white;
+        double magenta = (white - (g / 255)) / white;
+        double yellow = (white - (b / 255)) / white;
+        double black = 1 - white;
+
+        System.out.println("red = " + r);
+        System.out.println("green = " + g);
+        System.out.println("blue = " + b);
+        System.out.println("white = " + white);
+        System.out.println("cyan = " + cyan);
+        System.out.println("magenta = " + magenta);
+        System.out.println("yellow = " + yellow);
+        System.out.println("black = " + black);
+    }
+}
