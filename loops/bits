@@ -1,0 +1,18 @@
+public class bits {
+    static void divide(int num) {
+        if (num < 0) {
+            throw new ArithmeticException("Illegal input");
+        } else {
+            int loop = 0;
+            while (num >= 1) {
+                num = num / 2;
+                loop = loop + 1;
+            }
+            System.out.println(loop);
+        }
+    }
+
+    public static void main(String[] args) {
+        divide(Integer.parseInt(args[0])); // Set age to 15 (which is below 18...)
+    }
+}
