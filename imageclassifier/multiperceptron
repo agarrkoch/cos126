@@ -1,0 +1,105 @@
+public class MultiPerceptron {
+    private double[][] mp;
+    private int m_;
+    private int n_;
+
+    // Creates a multi-perceptron object with m classes and n inputs.
+    // It creates an array of m perceptrons, each with n inputs.
+    public MultiPerceptron(int m, int n) {
+        mp = new double[m][n];
+        m_ = m;
+        n_ = n;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                mp[i][j] = 0;
+            }
+        }
+    }
+
+    // Returns the number of classes m.
+    public int numberOfClasses() {
+        return m_;
+    }
+
+    // Returns the number of inputs n (length of the feature vector).
+    public int numberOfInputs() {
+        return n_;
+    }
+
+    private double sum(double[] x, int label) {
+        double sum = 0;
+        for (int i = 0; i < n_; i++) {
+            sum = sum + (x[i] * mp[label][i]);
+        }
+        return sum;
+    }
+
+    // Returns the predicted label (between 0 and m-1) for the given input.
+    public int predictMulti(double[] x) {
+        int label = 0;
+        double label_value = sum(x, 0);
+
+        for (int i = 1; i < m_; i++) {
+            if (sum(x, i) > label_value) {
+                label = i;
+                label_value = sum(x, i);
+            }
+        }
+        return label;
+    }
+
+    // Trains this multi-perceptron on the labeled (between 0 and m-1) input.
+    public void trainMulti(double[] x, int label) {
+        double sum;
+
+        for (int j = 0; j < m_; j++) {
+            if (j == label) {
+                sum = sum(x, label);
+                if (sum <= 0) {
+                    for (int i = 0; i < n_; i++) {
+                        mp[label][i] = mp[label][i] + x[i];
+                    }
+                }
+            } else {
+                sum = sum(x, j);
+                if (sum > 0) {
+                    for (int i = 0; i < n_; i++) {
+                        mp[j][i] = mp[j][i] - x[i];
+                    }
+                }
+            }
+        }
+    }
+
+    // Returns a String representation of this MultiPerceptron, with
+    // the string representations of the perceptrons separated by commas
+    // and enclosed in parentheses.
+    // Example with m = 2 and n = 3: ((2.0, 0.0, -2.0), (3.0, 4.0, 5.0))
+    public String toString() {
+        String mp_string = "(";
+        for (int i = 0; i < m_; i++) {
+            mp_string = mp_string + "(";
+            for (int j = 0; j < n_; j++) {
+                if (j == n_ - 1) {
+                    mp_string = mp_string + Double.toString(mp[i][j]);
+                } else {
+                    mp_string = mp_string + Double.toString(mp[i][j]) + ", ";
+                }
+            }
+            if (i == m_ - 1) {
+                mp_string = mp_string + ")";
+            } else {
+                mp_string = mp_string + "), ";
+            }
+        }
+        mp_string = mp_string + ")";
+        return mp_string;
+    }
+
+    // Tests this class by directly calling all instance methods.
+    public static void main(String[] args) {
+        //MultiPerceptron x = new MultiPerceptron(3, 3);
+        //System.out.print(x.toString());
+    }
+}
